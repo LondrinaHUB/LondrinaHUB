@@ -41,8 +41,9 @@ router.route('/buslines')
 		//RECEBER OS ARRAYS MALDITOS
 
 		busline.save(function(err) {
-			if (err)
+			if (err){
 				res.send(err);
+			}
 
 			res.json({ message: 'Sucesso'});
 		});
@@ -61,8 +62,9 @@ router.route('/buslines/:busline_id')
 
 .get(function(req,res){
 	BusLine.findById(req.params.busline_id, function(err,busline){
-		if (err)
+		if (err){
 			res.send(err);
+		}
 
 		res.json(busline);
 	});
@@ -70,15 +72,17 @@ router.route('/buslines/:busline_id')
 
 .put(function(req,res) {
 	BusLine.findById(req.params.busline_id, function(err, busline){
-		if (err)
+		if (err){
 			res.send(err);
+		}
 
 		busline.name = req.body.name;
 		busline.code = req.body.code;
 
 		busline.save(function(err){
-			if (err)
+			if (err){
 				res.send(err);
+			}
 
 			res.json({ message: 'Sucesso'});
 		});
@@ -89,8 +93,9 @@ router.route('/buslines/:busline_id')
 	BusLine.remove({
 		_id: req.params.busline_id
 	}, function(err, busline) {
-		if(err)
+		if(err){
 			res.send(err);
+		}
 
 		res.json({ message: 'Sucesso'});
 	});
@@ -110,8 +115,9 @@ router.route('/busstops')
 		//RECEBER OS ARRAYS MALDITOS
 
 		busstop.save(function(err) {
-			if (err)
+			if (err){
 				res.send(err);
+			}
 
 			res.json({ message: 'Sucesso'});
 		});
@@ -119,8 +125,9 @@ router.route('/busstops')
 
 .get(function(req,res) {
 	BusStop.find(function(err, busstops){
-		if (err)
+		if (err){
 			res.send(err);
+		}
 
 		res.json(busstops);
 	});
@@ -130,8 +137,9 @@ router.route('/busstops/:busstop_id')
 
 .get(function(req,res){
 	BusStop.findById(req.params.busstop_id, function(err,busstop){
-		if (err)
+		if (err){
 			res.send(err);
+		}
 
 		res.json(busstop);
 	});
@@ -139,15 +147,17 @@ router.route('/busstops/:busstop_id')
 
 .put(function(req,res) {
 	BusStop.findById(req.params.busstop_id, function(err, busstop){
-		if (err)
+		if (err){
 			res.send(err);
+		}
 
 		busstop.name = req.body.name;
 		busstop.code = req.body.code;
 
 		busstop.save(function(err){
-			if (err)
+			if (err){
 				res.send(err);
+			}
 
 			res.json({ message: 'Sucesso'});
 		});
@@ -158,8 +168,9 @@ router.route('/busstops/:busstop_id')
 	BusStop.remove({
 		_id: req.params.busstop_id
 	}, function(err, busstop) {
-		if(err)
+		if(err){
 			res.send(err);
+		}
 
 		res.json({ message: 'Sucesso'});
 	});
@@ -172,22 +183,24 @@ router.route('/busstops/:busstop_id')
 router.route('/busstop/getlines/:code')
 .get(function(req,res){
 	BusStop.findOne({ 'code' : req.params.code}, function (err,busstop) {
-		if(err)
+		if(err){
 			res.send(err);
+		}
+
 		var lines = [];
 
 		busstop.buslines.forEach(function(item){
-			console.log(item.busline_id);
-			BusLine.findById(item.busline_id, function(err, busline){
-				if (err)
+			BusLine.findById(item.busline_id, function (err, busline){
+				if (err){
 					console.log(err);
+				}
 
-				console.log(busline);
-				lines.push(busline.name);
-			});
+				lines.push(busline);
+			}); 
 		});
-
-		res.json({busstop,lines});
+		setTimeout(function(){
+			res.json({busstop, lines});
+		});
 	});
 });
 
