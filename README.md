@@ -1,8 +1,5 @@
-# Building a RESTful API in Node and Express
+# Londrina HUB
 
-Using the new Express 4.0 Router to build an API
-
-[Read the tutorial](http://scotch.io/tutorials/javascript/build-a-restful-api-using-node-and-express-4)
 
 ## Requirements
 
@@ -10,7 +7,7 @@ Using the new Express 4.0 Router to build an API
 
 ## Installation
 
-- Clone the repo: `git clone git@github.com:scotch-io/node-api`
+- Clone the repo:
 - Install dependencies: `npm install`
 - Start the server: `node server.js`
 
