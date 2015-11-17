@@ -13,8 +13,8 @@ var port     = process.env.PORT || 8080;
 
 var mongoose   = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/londrina_hub'); // connect to our database
-var BusLine     = require('./app/models/busline');
-var BusStop     = require('./app/models/busstop');
+var BusLine     = require('./app/models/mongo').BusLine;
+var BusStop     = require('./app/models/mongo').BusStop;
 
 var router = express.Router();
 
