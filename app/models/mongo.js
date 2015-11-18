@@ -1,23 +1,24 @@
 var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema,
-	ObjectId 	 = Schema.ObjectId;
+ObjectId 	 = Schema.ObjectId;
 
 var BusLineSchema   = new Schema({
 	name: String,
 	code: String,
 	cities: [ { name: String, state: String}],
-	routes: {
-		route:[ {latitude: String, longitude:Number}],
-		backroute:[ {latitude: String, longitude:Number}]
-	}
+	route:[{loc: [Number]}],
+	backroute:[{loc: [Number]}]
 });
+
 
 var BusStopSchema   = new Schema({
 	name: String,
 	code: String,
-	latitude: Number,
-	latitude: Number,
-	buslines:[{busline_id: ObjectId}]
+	loc: {
+		type: [Number],
+		index: '2d'
+	},
+	buslines_id:[{ type: Schema.ObjectId, ref: 'BusLine'}]
 });
 
 
@@ -27,5 +28,6 @@ var BusStop = mongoose.model('BusStop', BusStopSchema);
 module.exports = {
 	BusLine : BusLine,
 	BusStop : BusStop
-}
+}                          
+
 

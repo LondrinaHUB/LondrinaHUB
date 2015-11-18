@@ -38,7 +38,9 @@ router.route('/buslines')
 	var busline = new BusLine();
 	busline.name = req.body.name;
 	busline.code = req.body.code;
-		//RECEBER OS ARRAYS MALDITOS
+	console.log(req.body.route);
+	busline.route = req.body.route;
+	busline.backroute = req.body.backroute;
 
 		busline.save(function(err) {
 			if (err){
@@ -112,7 +114,7 @@ router.route('/busstops')
 	var busstop = new BusStop();
 	busstop.name = req.body.name;
 	busstop.code = req.body.code;
-		//RECEBER OS ARRAYS MALDITOS
+	busstop.loc = req.body.loc;
 
 		busstop.save(function(err) {
 			if (err){
@@ -124,8 +126,10 @@ router.route('/busstops')
 	})
 
 .get(function(req,res) {
-	BusStop.find(function(err, busstops){
-		if (err){
+	BusStop.find()
+	.populate('buslines_id')
+	.exec(function(err,busstops){
+		if(err){
 			res.send(err);
 		}
 
@@ -136,7 +140,9 @@ router.route('/busstops')
 router.route('/busstops/:busstop_id')
 
 .get(function(req,res){
-	BusStop.findById(req.params.busstop_id, function(err,busstop){
+	BusStop.findById(req.params.busstop_id)
+	.populate('buslines_id')
+	.exec(function(err,busstop){
 		if (err){
 			res.send(err);
 		}
@@ -182,25 +188,14 @@ router.route('/busstops/:busstop_id')
 //ROTA PARA RECUPERAR LINHAS PELO CODE DO PONTO
 router.route('/busstop/getlines/:code')
 .get(function(req,res){
-	BusStop.findOne({ 'code' : req.params.code}, function (err,busstop) {
+	BusStop.findOne({ 'code' : req.params.code})
+	.populate('buslines_id')
+	.exec(function(err,busstop){
 		if(err){
 			res.send(err);
 		}
 
-		var lines = [];
-
-		busstop.buslines.forEach(function(item){
-			BusLine.findById(item.busline_id, function (err, busline){
-				if (err){
-					console.log(err);
-				}
-
-				lines.push(busline);
-			}); 
-		});
-		setTimeout(function(){
-			res.json({busstop, lines});
-		});
+		res.json(busstop);
 	});
 });
 
