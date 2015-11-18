@@ -115,6 +115,7 @@ router.route('/busstops')
 	busstop.name = req.body.name;
 	busstop.code = req.body.code;
 	busstop.loc = req.body.loc;
+	busstop.buslines_id = req.body.buslines_id;
 
 		busstop.save(function(err) {
 			if (err){

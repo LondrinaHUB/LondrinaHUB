@@ -1,4 +1,4 @@
-var mongoose     = require('mongoose');
+var mongoose     = require("mongoose");
 var Schema       = mongoose.Schema,
 ObjectId 	 = Schema.ObjectId;
 
@@ -16,18 +16,19 @@ var BusStopSchema   = new Schema({
 	code: String,
 	loc: {
 		type: [Number],
-		index: '2d'
+		index: "2d"
 	},
-	buslines_id:[{ type: Schema.ObjectId, ref: 'BusLine'}]
+	buslines_id:[{ type: Schema.ObjectId, ref: "BusLine"}]
 });
 
 
-var BusLine = mongoose.model('BusLine', BusLineSchema);
-var BusStop = mongoose.model('BusStop', BusStopSchema);
+var BusLine = mongoose.model("BusLine", BusLineSchema);
+var BusStop = mongoose.model("BusStop", BusStopSchema);
 
 module.exports = {
 	BusLine : BusLine,
 	BusStop : BusStop
 }                          
+
 
 
