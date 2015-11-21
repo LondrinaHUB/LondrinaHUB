@@ -11,8 +11,30 @@ app.use(bodyParser.json());
 
 var port = process.env.PORT || 3030; 
 
+
+var MONGO = {
+	username: "",
+	password: "",
+	server:"191.179.171.232",
+	port:"27017",
+	db: "londrinahub",
+	connectionString: function(){
+		return 'mongodb://'+this.server+':'+this.port+'/'+this.db;
+	},
+	options:{
+		server:{
+			auto_reconnect: true,
+			socketOptions:{
+				connectTimeoutMS:3600000,
+				keepAlive:3600000,
+				socketTimeoutMS:3600000
+			}
+		}
+	}
+};
+console.log(MONGO.connectionString());
 var mongoose   = require('mongoose');
-mongoose.connect('mongodb://191.179.171.232/londrinahub'); // connect to our database
+mongoose.connect(MONGO.connectionString(), MONGO.options); // connect to our database
 var BusLine     = require('./app/models/mongo').BusLine;
 var BusStop     = require('./app/models/mongo').BusStop;
 
