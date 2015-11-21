@@ -9,10 +9,10 @@ app.use(morgan('dev')); // log requests to the console
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var port     = process.env.PORT || 8080; 
+var port = process.env.PORT || 3030; 
 
 var mongoose   = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/londrina_hub'); // connect to our database
+mongoose.connect('mongodb://191.179.171.232/londrinahub'); // connect to our database
 var BusLine     = require('./app/models/mongo').BusLine;
 var BusStop     = require('./app/models/mongo').BusStop;
 
@@ -198,6 +198,19 @@ router.route('/busstop/getlines/:code')
 
 		res.json(busstop);
 	});
+});
+
+var request = require('request');
+
+router.route('/loadline/:line')
+.get(function (req,res){
+	request.post('http://site.tcgrandelondrina.com.br:8082/Soap/BuscaItinerarios'),
+	{ form: { idLinha : 201}},
+	function (err, response, body){
+		if (!err && response.statusCode == 200){
+			res.send(body);
+		}
+	};
 });
 
 // REGISTER OUR ROUTES -------------------------------
